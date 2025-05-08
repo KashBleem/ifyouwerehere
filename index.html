@@ -6,7 +6,7 @@
   <title>If I Had You Here…</title>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
+      font-family: 'Calibri', Italic;
       background: #fff0f5;
       color: #333;
       text-align: center;
@@ -41,6 +41,52 @@
       align-items: center;
       justify-content: center;
     }
+
+  .countdown-container {
+      margin-top: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Courier New', Courier, monospace;
+      font-weight: bold;
+      font-size: 2rem;
+  }
+
+  .countdown-unit {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .countdown-unit span {
+    font-size: 1rem;
+    color: #777;
+  }
+
+  .separator {
+    font-size: 2rem;
+    color: #333;
+  }
+
+  .dark-mode .countdown-container {
+    color: #f0f0f0;
+  }
+
+  .dark-mode .countdown-unit {
+    color: #f0f0f0;
+  }
+
+  .dark-mode .countdown-unit span {
+    color: #f0f0f0;  
+  }
+
+  .dark-mode .separator {
+    color: #f0f0f0;
+  }
+
     .button-container {
       display: flex;
       flex-wrap: wrap;
@@ -242,9 +288,33 @@
 <body>
   <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
   <div class="container">
+
+    <!-- Timer Section -->
+    <div class="countdown-container">
+      <div class="countdown-unit" id="days">
+        <span id="daysValue">00</span>
+        <span>Days</span> 
+      </div>
+      <div class="separator">:</div>
+      <div class="countdown-unit" id="hours">
+        <span id="hoursValue">00</span>
+        <span>Hours</span> 
+      </div>
+      <div class="separator">:</div>
+      <div class="countdown-unit" id="minutes">
+        <span id="minutesValue">00</span>
+        <span>Minutes</span> 
+      </div>
+      <div class="separator">:</div>
+      <div class="countdown-unit" id="seconds">
+        <span id="secondsValue">00</span>
+        <span>Seconds</span> 
+      </div>
+    </div>
+
     <h1>If I Had You Here…</h1>
     <p class="subtitle">What would happen next?</p>
-    <div id="message">Click a button to fantasize 🔥</div>
+    <div id="message">Click a button to fantasise 🔥</div>
     <div class="button-container">
       <button class="button" onclick="generateLine('spicy')">Spicy 🔥</button>
       <button class="button safe" onclick="generateLine('soft')">Soft 🍌</button>
@@ -265,11 +335,45 @@
       <div id="storageInfo"></div>
     </div>
     <div class="footer">
-      <p>Made with ❤️ | Share with someone special</p>
+      <p>Made with ❤️ & Vitamin B | Share with someone special</p>
       <p class="privacy-note">Your favorites are stored only on your device. No data is sent to servers.</p>
     </div>
   </div>
   <script>
+// Timer functionality
+    const countdownDate = new Date("June 30, 2025 00:00:00").getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = countdownDate - now;
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("daysValue").innerHTML = days < 10 ? `0${days}` : days;
+      document.getElementById("hoursValue").innerHTML = hours < 10 ? `0${hours}` : hours;
+      document.getElementById("minutesValue").innerHTML = minutes < 10 ? `0${minutes}` : minutes;
+      document.getElementById("secondsValue").innerHTML = seconds < 10 ? `0${seconds}` : seconds;
+
+      document.getElementById("days").children[1].innerHTML = `Days`;
+      document.getElementById("hours").children[1].innerHTML = `Hours`;
+      document.getElementById("minutes").children[1].innerHTML = `Minutes`;
+      document.getElementById("seconds").children[1].innerHTML = `Seconds`;
+
+      if (distance < 0) {
+        clearInterval(countdownInterval);
+        document.getElementById("daysValue").innerHTML = "00";
+        document.getElementById("hoursValue").innerHTML = "00";
+        document.getElementById("minutesValue").innerHTML = "00";
+        document.getElementById("secondsValue").innerHTML = "00";
+        alert("It's worth the wait :)!");
+      }
+    }
+
+   const countdownInterval = setInterval(updateCountdown, 1000);
+
    let currentCategory = '';
    let currentMessage = '';
    let lastMessage = '';
@@ -286,20 +390,16 @@
      console.error('localStorage not available:', e);
    }
    
-    const spicyLines = [
-  "…you wouldn't be walking straight for days.",
-  "…I'd make you coffee naked — and you wouldn't get to drink it ☕."
-];
-   
-  const softLines = [
+  const spicyLines = [
   "…you wouldn't be walking straight for days.",
   "…I'd make you tea naked — and you wouldn't get to drink it ☕.",
   "…we’d fog up every mirror in this place.",
   "…I'd pin you against the fridge mid-snack raid.",
   "…the duvet wouldn’t survive the night.",
   "…you’d be too sore to sit through a Zoom call 💻.",
-  "…I'd whisper the filthiest things in my poshest voice.",
+  "…I'd whisper the filthiest things in my gruffest voice.",
   "…you’d need a safe word — and a backup.",
+  "…I'd eat you till I couldn't lose the taste of you for weeks.",
   "…we’d steam up the shower — then forget to wash.",
   "…you’d make that sound I like. Over. And over. 😈",
   "…the neighbours would either complain or applaud.",
@@ -321,6 +421,7 @@
   "…I'd ruin your lipstick. Thoroughly 💄.",
   "…we'd create a new kind of cardio.",
   "…I'd make you late. Repeatedly.",
+  "….I'd eat all your holes. And you'd let me.",
   "…I’d mutter filth into your ear until your knees gave in.",
   "…you’d beg for one more round — then another.",
   "…I'd kiss every inch of you, starting with your grin.",
@@ -367,6 +468,7 @@
   "…you’d need a lie-down and a cup of tea.",
   "…I’d talk you into it — then out of your clothes.",
   "…we’d turn soft sheets into a crime scene.",
+  "…we'd watch the videos of us making eachother hot and sweaty",
   "…you’d ask me to behave — but not mean it.",
   "…I'd turn your moan into my victory chant.",
   "…we’d set a new decibel record.",
@@ -383,7 +485,7 @@
   "…we’d both need a cold shower — after the third round.",
   "…I'd let my hands do the talking.",
   "…you’d arch so pretty I’d lose my patience.",
-  "…I’d earn every whimper, one at a time.",
+  "…I’d earn every whimper and moan, one at a time.",
   "…your neighbours would write us hate mail — or ask to join.",
   "…I’d call you ‘darling’ while ruining you.",
   "…you’d need a stretch and a smug grin after.",
@@ -400,6 +502,126 @@
   "…I’d earn a five-star rating — no notes.",
   "…you’d need new knickers. Again."
 ];
+
+  const softLines = [
+   "…we'd build a pillow fort and cuddle aggressively.",
+  "…I'd boop your nose every 30 seconds.",
+  "…we'd do face masks and eat cereal out of mugs.",
+  "…I'd let you win at Mario Kart. Once.",
+  "…we'd scroll memes and laugh till it hurts.",
+  "…I'd read you smut in a dramatic British accent.",
+  "…we'd have a dance party in our underwear.",
+  "…I'd make you my famous midnight pancakes.",
+  "…we'd watch terrible movies and make snarky comments.",
+  "…I'd show you my secret collection of weird playlists.",
+  "…we'd rate neighbourhood dogs out of 10 from the window.",
+  "…I'd teach you my grandma's secret cookie recipe.",
+  "…we’d wear matching socks and pretend it’s a personality trait 🧦.",
+  "…I'd tuck you in like a human burrito.",
+  "…we'd stay in bed until Deliveroo forces us out.",
+  "…I’d let you steal all the duvet and pretend I’m fine with it.",
+  "…we'd make up songs about the cat.",
+  "…I'd brush your hair while you rant about your day.",
+  "…we’d have a serious tea tasting session with a spreadsheet.",
+  "…I'd build you a toastie and say it’s gourmet.",
+  "…we’d make blanket nests and refuse to be adults.",
+  "…I'd read your star chart and mispronounce everything ✨.",
+  "…we’d binge-watch a niche documentary and get way too into it.",
+  "…I'd trace your freckles and give each one a name.",
+  "…we’d whisper secrets into the darkness until one of us snores.",
+  "…I’d let you fall asleep on my chest while I pretend not to cramp.",
+  "…we’d go on late-night snack raids in our slippers.",
+  "…I'd make you a playlist titled 'For Cuddling Purposes Only'.",
+  "…we’d argue over which biscuits dunk best 🫖.",
+  "…I'd hide love notes in your coat pockets.",
+  "…we’d make up fake backstories for strangers at the café.",
+  "…I'd lend you my hoodie and pretend not to want it back.",
+  "…we’d make a Sunday roast just for two (plus leftovers).",
+  "…I'd gently bully you into drinking more water 💧.",
+  "…we’d make a scrapbook that ends up 80% stickers.",
+  "…I'd kiss your forehead whenever you forgot how lovely you are.",
+  "…we’d go to IKEA and get lost on purpose.",
+  "…I'd share my last Malteser. That’s how much I like you.",
+  "…we’d take a train to nowhere and narrate the journey.",
+  "…I'd paint your toenails badly and proudly.",
+  "…we’d sing in the car like we’re in a romcom montage.",
+  "…I'd hold your hand under the table and smile like an idiot.",
+  "…we’d people-watch at the park and rate picnic spreads.",
+  "…I'd draw us as cartoons, badly but with love.",
+  "…we’d cuddle so long we both forget our phones exist 📵.",
+  "…I'd get up early just to make you tea in bed.",
+  "…we’d walk in the rain and not even run for cover.",
+  "…I'd fix your collar and pretend we’re in a BBC drama.",
+  "…we’d try every hot chocolate in town — scientifically.",
+  "…I'd fall asleep listening to your heartbeat.",
+  "…we’d argue over which side of the bed is better — and switch anyway.",
+  "…I'd sneak kisses during ad breaks.",
+  "…we’d invent a secret handshake no one else can learn.",
+  "…I'd pretend not to notice you stealing my fries 🍟.",
+  "…we’d feed ducks and give them posh names.",
+  "…I'd hum to you while you nap.",
+  "…we’d lie under fairy lights and call it an aesthetic.",
+  "…I'd hold your pinky when no one’s looking.",
+  "…we’d start a jigsaw and never finish it.",
+  "…I'd trace hearts on your back when you're not looking.",
+  "…we’d wear matching jumpers and deny it’s on purpose.",
+  "…I'd share my bubble bath even if it’s a squeeze 🛁.",
+  "…we’d find a local pub and become 'regulars'.",
+  "…I'd let you play with my hair until I fall asleep.",
+  "…we’d send each other voice notes just to hear breathing.",
+  "…I'd make you soup and act like it’s a cure-all.",
+  "…we’d read books in the same room and occasionally grin.",
+  "…I'd text you memes even if you’re right next to me.",
+  "…we’d build flat-pack furniture without breaking up (miracle).",
+  "…I'd learn your coffee order and never mess it up ☕.",
+  "…we’d match playlists and call it fate.",
+  "…I'd nudge you with my foot under the table.",
+  "…we’d sleep in on a Tuesday just because.",
+  "…I'd buy your favourite crisps and not touch them. Much.",
+  "…we’d talk about nothing and everything until 3am.",
+  "…I'd draw hearts on foggy windows just for you.",
+  "…we’d turn errands into dates.",
+  "…I'd make a silly nickname stick forever.",
+  "…we’d decorate for Christmas far too early 🎄.",
+  "…I'd let you pick the takeaway even if I disagree.",
+  "…we’d rewatch our favourite series every year like tradition.",
+  "…I'd fall asleep holding your hand under the pillow.",
+  "…we’d name our houseplants and talk to them.",
+  "…I'd dance with you in the kitchen to cheesy music.",
+  "…we’d do silly impressions until someone cries laughing.",
+  "…I'd give you my last Rolo without flinching.",
+  "…we’d sit in silence and still feel heard.",
+  "…I'd fold your laundry just so it smells like me.",
+  "…we’d nap like it's a competitive sport 💤.",
+  "…I'd write your name on steamy mirrors.",
+  "…we’d hold hands while watching horror films — even if we’re not scared.",
+  "…I'd let you dictate what Fornite or Roblox games we'd play all night",
+  "…I'd draw little stars on your wrist with a pen.",
+  "…we’d get takeaway and rate it like food critics.",
+  "…I'd hum the songs you hum.",
+  "…we’d go on tiny, spontaneous adventures.",
+  "…I'd give you forehead kisses like punctuation.",
+  "…we’d start journaling our weird dreams.",
+  "…I'd hide sweets in your bag before work 🍬.",
+  "…we’d talk about our favourite clouds like nerds.",
+  "…I'd gently roast you and then kiss your nose.",
+  "…we’d stay under the duvet for hours, no shame.",
+  "…I'd make you laugh while brushing your teeth.",
+  "…we’d match mugs and pretend it wasn’t intentional.",
+  "…I'd fall asleep mid-sentence and you'd finish my story.",
+  "…we’d spend the whole day in our pyjamas.",
+  "…I'd draw you as a cat. Don’t ask why.",
+  "…we’d walk through bookshops and pick titles for each other 📚.",
+  "…I'd turn your hoodie into my emotional support item.",
+  "…we’d set alarms for cuddles.",
+  "…I'd surprise you with flowers from the corner shop 🌼.",
+  "…we’d get matching slippers and laugh at ourselves.",
+  "…I'd remember how you like your toast and judge you lovingly.",
+  "…we’d turn rainy days into masterpieces of cosiness.",
+  "…I'd say 'just five more minutes' and mean it every time.",
+  "…we’d doodle each other in stick figures.",
+  "…I'd take photos of your laugh just to remember it."
+];
    
   const romanticLines = [
   "…I'd hold you close and count your heartbeats.",
@@ -410,6 +632,7 @@
   "…we'd watch the sunrise wrapped in one blanket.",
   "…I'd play with your hair until you fell asleep.",
   "…I'd tell you all the ways you've changed my world.",
+  "…I'd hold you in the hot tub whilst we star gaze and plan our future",
   "…we'd make plans for forever between kisses.",
   "…I'd show you how time can stand still.",
   "…I'd remind you how perfect you are to me.",
@@ -506,7 +729,7 @@
   "…we’d nap after Sunday roasts, fully content.",
   "…I'd kiss your temple and wish time would stop.",
   "…we’d whisper under the duvet like kids again.",
-  "…I'd leave lipstick on your cheek on purpose 💋.",
+  "…I'd let you leave lipstick on my cheek on purpose 💋.",
   "…we’d look at old photos and still feel butterflies.",
   "…I'd wake you with kisses on grey mornings.",
   "…we’d hold pinkies and call it fate.",
@@ -766,10 +989,8 @@
      document.getElementById('importInput').value = '';
    }
    
-   // Load dark mode preference
    function loadSettings() {
      if (storageAvailable) {
-       // Load dark mode
        if (localStorage.getItem('darkMode') === 'true') {
          isDarkMode = true;
          document.body.classList.add("dark-mode");
