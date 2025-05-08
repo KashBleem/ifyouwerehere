@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>If I Had You Here…</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #fff0f5;
+      color: #333;
+      text-align: center;
+      padding: 3rem 1rem;
+      transition: background-color 0.5s ease;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 1rem;
+      transition: color 0.3s ease;
+    }
+    .subtitle {
+      font-size: 1.2em;
+      margin-bottom: 2rem;
+      color: #777;
+    }
+    #message {
+      font-size: 1.5em;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      max-width: 600px;
+      background: #ffe6eb;
+      border-radius: 20px;
+      min-height: 80px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .button-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .button {
+      background: #ff4d6d;
+      color: white;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 30px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .button:hover {
+      background: #e0435f;
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .button:active {
+      transform: translateY(1px);
+    }
+    .safe {
+      background: #ffd166;
+      color: #333;
+    }
+    .safe:hover {
+      background: #fcbf49;
+    }
+    .romantic {
+      background: #c38efa;
+      color: white;
+    }
+    .romantic:hover {
+      background: #a66df7;
+    }
+    .copy {
+      background: #7ac7ff;
+      color: white;
+      font-size: 0.9rem;
+      padding: 0.8rem 1.5rem;
+    }
+    .copy:hover {
+      background: #59b6ff;
+    }
+    .favorite {
+      background: #ff8c9e;
+      color: white;
+      font-size: 0.9rem;
+      padding: 0.8rem 1.5rem;
+    }
+    .favorite:hover {
+      background: #ff6a82;
+    }
+    .favorites-panel {
+      margin-top: 2rem;
+      background: rgba(255, 255, 255, 0.7);
+      padding: 1rem;
+      border-radius: 10px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease, padding 0.5s ease;
+    }
+    .favorites-panel.active {
+      max-height: 300px;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+    .favorites-list {
+      list-style: none;
+      padding: 0;
+      text-align: left;
+    }
+    .favorites-list li {
+      padding: 0.5rem;
+      margin: 0.5rem 0;
+      background: #ffe6eb;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .favorites-list button {
+      background: #ff4d6d;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 25px;
+      height: 25px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .theme-toggle {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .theme-toggle:hover {
+      transform: rotate(180deg);
+    }
+    .dark-mode {
+      background: #2a2a2a;
+      color: #f0f0f0;
+    }
+    .dark-mode #message {
+      background: #3d3d3d;
+      color: #f0f0f0;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+    .dark-mode .favorites-panel {
+      background: rgba(50, 50, 50, 0.7);
+    }
+    .dark-mode .favorites-list li {
+      background: #3d3d3d;
+      color: #f0f0f0;
+    }
+    .indicator {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 5px;
+    }
+    .spicy-indicator {
+      background-color: #ff4d6d;
+    }
+    .soft-indicator {
+      background-color: #ffd166;
+    }
+    .romantic-indicator {
+      background-color: #c38efa;
+    }
+    .message-fade {
+      animation: fadeIn 0.5s;
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(-10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .footer {
+      margin-top: 3rem;
+      font-size: 0.8rem;
+      color: #777;
+    }
+    .privacy-note {
+      font-size: 0.7rem;
+      opacity: 0.7;
+      margin-top: 0.5rem;
+    }
+    .export-import {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #333;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 20px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 1000;
+    }
+    #importInput {
+      display: none;
+    }
+    #storageInfo {
+      font-size: 0.8rem;
+      margin-top: 0.5rem;
+      color: #777;
+    }
+    @media (max-width: 600px) {
+      .button-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      .button {
+        width: 80%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+  <div class="container">
+    <h1>If I Had You Here…</h1>
+    <p class="subtitle">What would happen next?</p>
+    <div id="message">Click a button to fantasize 🔥</div>
+    <div class="button-container">
+      <button class="button" onclick="generateLine('spicy')">Spicy 🔥</button>
+      <button class="button safe" onclick="generateLine('soft')">Soft 🍌</button>
+      <button class="button romantic" onclick="generateLine('romantic')">Romantic 💕</button>
+    </div>
+    <div class="button-container">
+      <button class="button copy" onclick="copyToClipboard()">Copy Message 📋</button>
+      <button class="button favorite" onclick="addToFavorites()">Add to Favorites ❤️</button>
+      <button class="button" onclick="toggleFavorites()">Show Favorites 📜</button>
+      <button class="button copy" onclick="shareMessage()">Share via WhatsApp 💬</button>
+    </div>
+    <div id="favoritesPanel" class="favorites-panel">
+      <h3>Your Favorite Lines</h3>
+      <ul id="favoritesList" class="favorites-list"></ul>
+      <div class="export-import">
+        <button class="button copy" onclick="exportFavorites()">Export ⬇️</button>
+      </div>
+      <div id="storageInfo"></div>
+    </div>
+    <div class="footer">
+      <p>Made with ❤️ | Share with someone special</p>
+      <p class="privacy-note">Your favorites are stored only on your device. No data is sent to servers.</p>
+    </div>
+  </div>
+  <script>
+   let currentCategory = '';
+   let currentMessage = '';
+   let lastMessage = '';
+   let isDarkMode = false;
+   let favorites = [];
+   
+   let storageAvailable = false;
+   try {
+     localStorage.setItem('test', 'test');
+     localStorage.removeItem('test');
+     storageAvailable = true;
+     favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+   } catch (e) {
+     console.error('localStorage not available:', e);
+   }
+   
+    const spicyLines = [
+  "…you wouldn't be walking straight for days.",
+  "…I'd make you coffee naked — and you wouldn't get to drink it ☕."
+];
+   
+  const softLines = [
+  "…you wouldn't be walking straight for days.",
+  "…I'd make you tea naked — and you wouldn't get to drink it ☕.",
+  "…we’d fog up every mirror in this place.",
+  "…I'd pin you against the fridge mid-snack raid.",
+  "…the duvet wouldn’t survive the night.",
+  "…you’d be too sore to sit through a Zoom call 💻.",
+  "…I'd whisper the filthiest things in my poshest voice.",
+  "…you’d need a safe word — and a backup.",
+  "…we’d steam up the shower — then forget to wash.",
+  "…you’d make that sound I like. Over. And over. 😈",
+  "…the neighbours would either complain or applaud.",
+  "…I'd show you why hotel towels are never enough.",
+  "…you’d say my name like a prayer. Or a warning.",
+  "…we’d mess up the sofa cushions beyond recovery.",
+  "…I’d make your thighs shake like dodgy Wi-Fi.",
+  "…you wouldn’t want to leave the bed — ever again.",
+  "…we’d turn a lazy Sunday into pure chaos.",
+  "…I'd tease you just enough to ruin your daydreams.",
+  "…you’d bite your lip. I'd pull it free. 🥵",
+  "…we’d need a whole bottle of water on the nightstand.",
+  "…you’d be out of breath before your clothes were off.",
+  "…I’d leave fingerprints on places you can’t show.",
+  "…your knickers wouldn’t stand a chance.",
+  "…I'd press you into the wall like you’re wallpaper.",
+  "…I’d tug your hair and grin when you moan.",
+  "…we’d break the bed. And then blame IKEA.",
+  "…I'd ruin your lipstick. Thoroughly 💄.",
+  "…we'd create a new kind of cardio.",
+  "…I'd make you late. Repeatedly.",
+  "…I’d mutter filth into your ear until your knees gave in.",
+  "…you’d beg for one more round — then another.",
+  "…I'd kiss every inch of you, starting with your grin.",
+  "…you wouldn’t need Netflix — or chill.",
+  "…your legs would forget how to function.",
+  "…I'd pin your wrists and ask if you're sure. Twice.",
+  "…you’d forget your name — and scream mine.",
+  "…I'd make your knees jealous of the floor.",
+  "…you’d wake up sore and smug.",
+  "…I’d remind you how good impatience can feel.",
+  "…you’d leave with scratches you can’t explain.",
+  "…I'd use your pulse as my metronome.",
+  "…I’d kiss you like I’m starving.",
+  "…we’d end up tangled and smug in a pile of sheets.",
+  "…I'd say something filthy — and then do it.",
+  "…you’d need a bath. And then another round in it.",
+  "…I’d take my time. Then speed up. Then ruin you.",
+  "…your clothes would be gone before you noticed.",
+  "…I'd worship your body like a sinner at church.",
+  "…you’d need plasters for reasons you won’t tell your mum.",
+  "…I’d leave you grinning at every flashback.",
+  "…we’d forget the takeaway on the doorstep.",
+  "…I'd kiss you so slowly you'd forget how clocks work.",
+  "…your voice would go hoarse — and I’d love it.",
+  "…I'd push you against the window and hope it rains.",
+  "…I'd undo you with just a look 😏.",
+  "…you’d swear this was illegal. And want more.",
+  "…I’d whisper things that wouldn’t survive a group chat.",
+  "…your hips would have stories they can’t share.",
+  "…we’d break every 'no touching' rule ever made.",
+  "…I'd pull your shirt over your head like a magician.",
+  "…you’d feel me for hours after I’m gone.",
+  "…I’d wake you up like an alarm you want to snooze 🔥.",
+  "…we’d have to air the room out.",
+  "…I’d let you try to top me — for a while.",
+  "…you’d call me trouble. Then ask for more.",
+  "…I'd make you spill your drink. On purpose 🍷.",
+  "…your bedframe would file a noise complaint.",
+  "…I'd tease you in public — and finish the sentence at home.",
+  "…you’d call in sick, and it wouldn’t be a lie.",
+  "…I'd leave your heart racing and your back arched.",
+  "…you’d forget what modesty even means.",
+  "…I'd make your thighs the star of the evening.",
+  "…you’d need a lie-down and a cup of tea.",
+  "…I’d talk you into it — then out of your clothes.",
+  "…we’d turn soft sheets into a crime scene.",
+  "…you’d ask me to behave — but not mean it.",
+  "…I'd turn your moan into my victory chant.",
+  "…we’d set a new decibel record.",
+  "…you’d run out of excuses for the marks on your neck.",
+  "…I'd show you what that look earns you.",
+  "…you’d blush remembering what I said — and did.",
+  "…I'd leave you gasping like you ran a marathon.",
+  "…you’d ask for round two mid-round one.",
+  "…I'd slide your knickers aside like a bookmark.",
+  "…we’d make your mattress proud.",
+  "…you’d be unable to focus for days.",
+  "…I'd say 'just one kiss' — and lie.",
+  "…you’d try to be quiet. And fail. Gloriously.",
+  "…we’d both need a cold shower — after the third round.",
+  "…I'd let my hands do the talking.",
+  "…you’d arch so pretty I’d lose my patience.",
+  "…I’d earn every whimper, one at a time.",
+  "…your neighbours would write us hate mail — or ask to join.",
+  "…I’d call you ‘darling’ while ruining you.",
+  "…you’d need a stretch and a smug grin after.",
+  "…I'd edge you just to hear that whimper again.",
+  "…we’d run out of clean sheets and not care.",
+  "…you’d remember it every time you sat down.",
+  "…I'd leave your lipstick on my inner thighs.",
+  "…you’d swear I was reading your mind.",
+  "…I'd take you apart like a favourite song — slow, then loud.",
+  "…you’d rethink every past lover — and smile.",
+  "…I'd tell you exactly what I want. And take it.",
+  "…you’d gasp, curse, and beg in one breath.",
+  "…we’d test how loud is too loud. Then go louder.",
+  "…I’d earn a five-star rating — no notes.",
+  "…you’d need new knickers. Again."
+];
+   
+  const romanticLines = [
+  "…I'd hold you close and count your heartbeats.",
+  "…I'd trace constellations on your skin.",
+  "…we'd slow dance in the kitchen at 2am.",
+  "…I'd write love poems on your back with my fingertips.",
+  "…I'd memorise every freckle on your face.",
+  "…we'd watch the sunrise wrapped in one blanket.",
+  "…I'd play with your hair until you fell asleep.",
+  "…I'd tell you all the ways you've changed my world.",
+  "…we'd make plans for forever between kisses.",
+  "…I'd show you how time can stand still.",
+  "…I'd remind you how perfect you are to me.",
+  "…we'd create memories to keep us warm on cold nights.",
+  "…I'd tell the stars about you 🌌.",
+  "…we’d kiss like we’ve just found each other again.",
+  "…I'd write your name in the fog on the windowpane.",
+  "…we’d say nothing, and still say everything.",
+  "…I'd love you like it's my full-time job.",
+  "…we’d find poetry in the ordinary.",
+  "…I'd whisper I love you when you’re already asleep.",
+  "…we’d plan a future that tastes like home.",
+  "…I'd kiss your forehead every morning without fail.",
+  "…we’d share headphones and a heartbeat 🎧.",
+  "…I'd get lost in your eyes and call it travelling.",
+  "…we’d light candles for no reason at all 🕯️.",
+  "…I'd steal kisses like secrets in a crowded room.",
+  "…we’d take the long way home just to stay together.",
+  "…I'd keep a picture of your smile in my wallet.",
+  "…we’d write each other love letters on rainy Sundays.",
+  "…I'd save the last piece of cake just for you 🍰.",
+  "…we’d fall asleep mid-conversation, still smiling.",
+  "…I'd buy you flowers on a random Tuesday 🌼.",
+  "…we’d kiss under the streetlight like a film ending.",
+  "…I'd pour you tea just the way you like it — always.",
+  "…we’d celebrate the little things like anniversaries.",
+  "…I'd look at you like you’re the only person in the room.",
+  "…we’d lie in bed and talk about everything and nothing.",
+  "…I'd learn your favourite song and hum it when you're sad.",
+  "…we’d pretend the world pauses when we're together.",
+  "…I'd stay up just to hear how your day went.",
+  "…we’d go stargazing and name them after each other.",
+  "…I'd fall in love with you like it’s brand new, every day.",
+  "…we’d take Polaroids and stick them to the fridge.",
+  "…I'd make space for you in every plan I have.",
+  "…we’d go on bookshop dates and get lost in stories 📚.",
+  "…I'd wrap you in my coat when it’s cold, always.",
+  "…we’d sit in silence that feels like a song.",
+  "…I'd bring you coffee just for the smile it brings ☕.",
+  "…we’d walk hand in hand and never let go.",
+  "…I'd kiss your knuckles and mean it.",
+  "…we’d nap together like it’s our religion.",
+  "…I'd leave you notes in your bag just to say I care.",
+  "…we’d dance at weddings like it’s just us there.",
+  "…I'd be your calm when the world feels loud.",
+  "…we’d match our steps without trying.",
+  "…I'd call you 'home' and mean every syllable.",
+  "…we’d spend hours doing nothing — perfectly.",
+  "…I'd stroke your cheek like it’s made of stardust.",
+  "…we’d rewatch our favourite film until we know every line.",
+  "…I'd remember the small things, always.",
+  "…we’d kiss in the rain and laugh about it.",
+  "…I'd write your name into every chapter of my life.",
+  "…we’d get caught staring and not look away.",
+  "…I'd let you fall asleep on me even if my arm goes numb.",
+  "…we’d travel just to get lost together.",
+  "…I'd choose you in every lifetime.",
+  "…we’d take selfies where I only look at you.",
+  "…I'd celebrate the shape of your smile.",
+  "…we’d press our foreheads together and breathe.",
+  "…I'd say 'I love you' like a daily ritual.",
+  "…we’d watch sunsets and pretend they’re for us 🌇.",
+  "…I'd stay up just to hear your sleepy voice.",
+  "…we’d share jumpers and hearts.",
+  "…I'd kiss your shoulder when words aren’t enough.",
+  "…we’d make breakfast together and slow dance with toast.",
+  "…I'd remember the way you take your tea — perfectly British.",
+  "…we’d go on long walks just to hold hands.",
+  "…I'd learn your quirks and adore every single one.",
+  "…we’d snuggle on the sofa and forget the world.",
+  "…I'd whisper your name like it’s the most sacred thing I know.",
+  "…we’d explore cities with hands clasped tight.",
+  "…I'd trace love notes on your back in the morning.",
+  "…we’d stay in bed till the sun gives up ☀️.",
+  "…I'd keep a spare toothbrush for you — and a drawer.",
+  "…we’d kiss on the escalator like no one’s watching.",
+  "…I'd fold your clothes and kiss your collarbone.",
+  "…we’d talk about the stars like old friends.",
+  "…I'd find ways to fall in love with you every single day.",
+  "…we’d light fairy lights and share secrets.",
+  "…I'd rub your back when you’re anxious and hold space.",
+  "…we’d make anniversaries out of Tuesdays.",
+  "…I'd play your laugh on repeat in my memory.",
+  "…we’d stand still on the bridge and just breathe.",
+  "…I'd save you the last bite, even when I don’t want to.",
+  "…we’d talk until the sky turns pink.",
+  "…I'd carry your favourite sweets in my coat pocket 🍬.",
+  "…we’d have inside jokes no one else gets.",
+  "…I'd catch you staring and smile every time.",
+  "…we’d hold each other like it’s the only thing that matters.",
+  "…I'd lean into you like you’re the answer to everything.",
+  "…we’d share silence that feels like a symphony.",
+  "…I'd send you songs that say what I can’t.",
+  "…we’d nap after Sunday roasts, fully content.",
+  "…I'd kiss your temple and wish time would stop.",
+  "…we’d whisper under the duvet like kids again.",
+  "…I'd leave lipstick on your cheek on purpose 💋.",
+  "…we’d look at old photos and still feel butterflies.",
+  "…I'd wake you with kisses on grey mornings.",
+  "…we’d hold pinkies and call it fate.",
+  "…I'd never stop writing stories with you in them."
+  ];
+   
+   function generateLine(category) {
+     let lines;
+     let indicator;
+   
+     currentCategory = category;
+   
+     switch (category) {
+       case 'spicy':
+         lines = spicyLines;
+         indicator = '<span class="indicator spicy-indicator"></span>';
+         break;
+       case 'soft':
+         lines = softLines;
+         indicator = '<span class="indicator soft-indicator"></span>';
+         break;
+       case 'romantic':
+         lines = romanticLines;
+         indicator = '<span class="indicator romantic-indicator"></span>';
+         break;
+       default:
+         lines = spicyLines;
+         indicator = '<span class="indicator spicy-indicator"></span>';
+     }
+   
+     let line;
+     do {
+       line = lines[Math.floor(Math.random() * lines.length)];
+     } while (line === lastMessage && lines.length > 1); // Prevent repeat
+   
+     lastMessage = line;
+     currentMessage = line;
+   
+     const messageEl = document.getElementById("message");
+     messageEl.innerHTML = indicator + line;
+     messageEl.classList.remove("message-fade");
+     void messageEl.offsetWidth;
+     messageEl.classList.add("message-fade");
+   }
+   
+   function copyToClipboard() {
+     if (!currentMessage) return;
+   
+     navigator.clipboard.writeText("If I had you here" + currentMessage)
+       .then(() => {
+         showToast("Copied to clipboard!");
+       })
+       .catch(err => {
+         console.error('Failed to copy: ', err);
+         // Fallback for browsers that don't support clipboard API
+         const textArea = document.createElement('textarea');
+         textArea.value = "If I had you here" + currentMessage;
+         textArea.style.position = 'fixed';
+         textArea.style.left = '-999999px';
+         document.body.appendChild(textArea);
+         textArea.select();
+         
+         try {
+           document.execCommand('copy');
+           showToast("Copied to clipboard!");
+         } catch (err) {
+           showToast("Unable to copy. Try selecting and copying manually.");
+         }
+         
+         document.body.removeChild(textArea);
+       });
+   }
+   
+   function showToast(text) {
+     // Remove any existing toasts
+     const existingToasts = document.querySelectorAll('.toast');
+     existingToasts.forEach(toast => toast.remove());
+     
+     const toast = document.createElement('div');
+     toast.textContent = text;
+     toast.className = 'toast';
+     document.body.appendChild(toast);
+     
+     setTimeout(() => { toast.style.opacity = '1'; }, 10);
+     setTimeout(() => {
+       toast.style.opacity = '0';
+       setTimeout(() => toast.remove(), 300);
+     }, 2000);
+   }
+   
+   function addToFavorites() {
+     if (!currentMessage || !storageAvailable) {
+       if (!storageAvailable) {
+         showToast("Storage not available in your browser");
+       }
+       return;
+     }
+   
+     const newFavorite = {
+       message: currentMessage,
+       category: currentCategory,
+       date: new Date().toLocaleDateString()
+     };
+   
+     if (!favorites.some(fav => fav.message === currentMessage)) {
+       favorites.push(newFavorite);
+       saveFavorites();
+       renderFavorites();
+       showToast("Added to favorites!");
+     } else {
+       showToast("Already in favorites.");
+     }
+   }
+   
+   function saveFavorites() {
+     if (storageAvailable) {
+       try {
+         localStorage.setItem('favorites', JSON.stringify(favorites));
+         updateStorageInfo();
+       } catch (e) {
+         console.error('Error saving to localStorage:', e);
+         showToast("Error saving favorites. Storage might be full.");
+       }
+     }
+   }
+   
+   function removeFavorite(index) {
+     favorites.splice(index, 1);
+     saveFavorites();
+     renderFavorites();
+   }
+   
+   function renderFavorites() {
+     const favoritesList = document.getElementById("favoritesList");
+     favoritesList.innerHTML = '';
+   
+     if (favorites.length === 0) {
+       favoritesList.innerHTML = '<li>No favorites yet! Add some you like.</li>';
+       return;
+     }
+   
+     favorites.forEach((fav, index) => {
+       const li = document.createElement('li');
+       let indicator;
+       switch (fav.category) {
+         case 'spicy':
+           indicator = '<span class="indicator spicy-indicator"></span>';
+           break;
+         case 'soft':
+           indicator = '<span class="indicator soft-indicator"></span>';
+           break;
+         case 'romantic':
+           indicator = '<span class="indicator romantic-indicator"></span>';
+           break;
+         default:
+           indicator = '';
+       }
+   
+       li.innerHTML = `
+         ${indicator} If I had you here${fav.message}
+         <button onclick="removeFavorite(${index})">×</button>
+       `;
+       favoritesList.appendChild(li);
+     });
+     
+     updateStorageInfo();
+   }
+   
+   function updateStorageInfo() {
+     if (!storageAvailable) return;
+     
+     const storageInfo = document.getElementById('storageInfo');
+     const favoritesSize = new Blob([JSON.stringify(favorites)]).size;
+     const kbSize = (favoritesSize / 1024).toFixed(2);
+     storageInfo.textContent = `Storage used: ${kbSize} KB`;
+   }
+   
+   function toggleFavorites() {
+     const favoritesPanel = document.getElementById("favoritesPanel");
+     favoritesPanel.classList.toggle("active");
+     renderFavorites();
+   }
+   
+   function toggleTheme() {
+     const body = document.body;
+     const themeToggle = document.querySelector(".theme-toggle");
+     isDarkMode = !isDarkMode;
+   
+     if (isDarkMode) {
+       body.classList.add("dark-mode");
+       themeToggle.textContent = "☀️";
+       if (storageAvailable) localStorage.setItem('darkMode', 'true');
+     } else {
+       body.classList.remove("dark-mode");
+       themeToggle.textContent = "🌙";
+       if (storageAvailable) localStorage.setItem('darkMode', 'false');
+     }
+   }
+   
+   function shareMessage() {
+     if (!currentMessage) return;
+     const text = encodeURIComponent("If I had you here" + currentMessage);
+     const url = `https://wa.me/?text=${text}`;
+     window.open(url, '_blank');
+   }
+   
+   function exportFavorites() {
+     if (favorites.length === 0) {
+       showToast("No favorites to export");
+       return;
+     }
+     
+     const dataStr = JSON.stringify(favorites, null, 2);
+     const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+     
+     const exportFileDefaultName = 'if-i-had-you-here-favorites.txt';
+     
+     const linkElement = document.createElement('a');
+     linkElement.setAttribute('href', dataUri);
+     linkElement.setAttribute('download', exportFileDefaultName);
+     linkElement.click();
+     
+     showToast("Favorites exported successfully");
+   }
+   
+   function importFavorites(files) {
+     if (!files.length) return;
+     
+     const file = files[0];
+     const reader = new FileReader();
+     
+     reader.onload = function(e) {
+       try {
+         const importedFavorites = JSON.parse(e.target.result);
+         
+         if (Array.isArray(importedFavorites)) {
+           // Merge with existing favorites, avoiding duplicates
+           importedFavorites.forEach(newFav => {
+             if (!favorites.some(existingFav => existingFav.message === newFav.message)) {
+               favorites.push(newFav);
+             }
+           });
+           
+           saveFavorites();
+           renderFavorites();
+           showToast(`Imported ${importedFavorites.length} favorites`);
+         } else {
+           showToast("Invalid favorites file format");
+         }
+       } catch (e) {
+         console.error('Error importing favorites:', e);
+         showToast("Error importing favorites file");
+       }
+     };
+     
+     reader.readAsText(file);
+     document.getElementById('importInput').value = '';
+   }
+   
+   // Load dark mode preference
+   function loadSettings() {
+     if (storageAvailable) {
+       // Load dark mode
+       if (localStorage.getItem('darkMode') === 'true') {
+         isDarkMode = true;
+         document.body.classList.add("dark-mode");
+         document.querySelector(".theme-toggle").textContent = "☀️";
+       }
+     }
+   }
+   
+   window.addEventListener('load', () => {
+     loadSettings();
+     const categories = ['spicy', 'soft', 'romantic'];
+     const randomCat = categories[Math.floor(Math.random() * categories.length)];
+     generateLine(randomCat);
+     renderFavorites();
+   });
+  </script>
+</body>
+</html>
