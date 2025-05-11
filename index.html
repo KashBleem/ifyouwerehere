@@ -7,21 +7,56 @@
     <base href="/ifyouwerehere/" />
     <link href="css/app.css" rel="stylesheet" />
     <link href="css/home.css" rel="stylesheet" />
+    <style>
+        .loader-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: system-ui, sans-serif;
+            color: #333;
+            text-align: center;
+        }
+        .loader {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 1rem;
+        }
+        .loader span {
+            width: 10px;
+            height: 10px;
+            background-color: #666;
+            border-radius: 50%;
+            animation: pulse 0.8s infinite alternate;
+        }
+        .loader span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .loader span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.6; }
+            100% { transform: scale(1.5); opacity: 1; }
+        }
+    </style>
 </head>
 <body>
     <div id="app">
-    <svg class="loading-progress">
-        <circle r="40%" cx="50%" cy="50%" />
-        <circle r="40%" cx="50%" cy="50%" />
-    </svg>
-    <div class="loading-progress-text"></div>
-</div>
+        <div class="loader-wrapper">
+            <div class="loader">
+                <span></span><span></span><span></span>
+            </div>
+            <div class="loading-progress-text">Loading "If I Had You Here…"…</div>
+        </div>
+    </div>
 
-<div id="blazor-error-ui">
-    An unhandled error has occurred.
-    <a href="" class="reload">Reload</a>
-    <a class="dismiss">🗙</a>
-</div>
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
 
     <script src="_framework/blazor.webassembly.js"></script>
     <script src="js/home.js"></script>
