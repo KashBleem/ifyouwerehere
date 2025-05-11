@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "IfIHadYouHere",
   "resources": {
-    "hash": "sha256-5+F2PrRGMllXBYftlOB6JWjiEzDPSPjY40EzAFvBCcI=",
+    "hash": "sha256-4/FkCeE3mya34gsV49MeYa4GNZ0sSsmhS0rDCv6TQPk=",
     "jsModuleNative": {
       "dotnet.native.js": "sha256-xNQsYHtL1vcbrVTHDZAwJM4WovpoyjsrM2C6FQ8cW1w="
     },
@@ -18,7 +18,7 @@
     },
     "coreAssembly": {},
     "assembly": {
-      "IfIHadYouHere.wasm": "sha256-2D+9VxoOpcErVZuliluNi2QHYuZt+Kx2i3XaU4VwOiI=",
+      "IfIHadYouHere.wasm": "sha256-8Jl63Ti9Xp9AxEAurKEKXIlY+7Z9BdX93iWWNWEnamY=",
       "Microsoft.AspNetCore.Components.wasm": "sha256-sWsv2QrIv1pda61h6NdwaF52pRKAnkoznJdZEujj7fA=",
       "Microsoft.AspNetCore.Components.Web.wasm": "sha256-cFuw/+bk0lc4EEOBrh/PUgghGmsyiXdaZnO4LGeA0u8=",
       "Microsoft.AspNetCore.Components.WebAssembly.wasm": "sha256-g89ZyzgJ823TqwG2mRV0v7+PyPBeygG8NBZzu44GlU4=",
