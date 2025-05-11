@@ -1,8 +1,8 @@
 self.assetsManifest = {
-  "version": "esj06i3P",
+  "version": "evbi4s8/",
   "assets": [
     {
-      "hash": "sha256-b0EvVh+Zqm2OmB8lsRYRouO6frThzVrCnMHGqupGZbI=",
+      "hash": "sha256-2D+9VxoOpcErVZuliluNi2QHYuZt+Kx2i3XaU4VwOiI=",
       "url": "_framework/IfIHadYouHere.wasm"
     },
     {
@@ -126,7 +126,7 @@ self.assetsManifest = {
       "url": "_framework/System.Text.RegularExpressions.wasm"
     },
     {
-      "hash": "sha256-x8P3QDjoBJuCOEw2OeckgzwGaRxNRHDW2nj9hApe7y8=",
+      "hash": "sha256-byqBEQp88PvCsiFlQ5gU7P8qng60ib0nHEvnE6IAhKY=",
       "url": "_framework/blazor.boot.json"
     },
     {
